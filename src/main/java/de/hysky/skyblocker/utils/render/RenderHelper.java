@@ -34,7 +34,7 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
+//import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
 
 import java.awt.*;
@@ -125,11 +125,18 @@ public class RenderHelper {
             Tessellator tessellator = RenderSystem.renderThreadTesselator();
 
             RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
+            //RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+            //RenderSystem.lineWidth(lineWidth);
+            //RenderSystem.disableCull();
+            //RenderSystem.enableDepthTest();
+            //RenderSystem.depthFunc(throughWalls ? GL11.GL_ALWAYS : GL11.GL_LEQUAL);
+
+            //Replaces the previous code that would usually require GL calls
             RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
             RenderSystem.lineWidth(lineWidth);
             RenderSystem.disableCull();
             RenderSystem.enableDepthTest();
-            RenderSystem.depthFunc(throughWalls ? GL11.GL_ALWAYS : GL11.GL_LEQUAL);
+            RenderSystem.depthFunc(throughWalls ? 519 : 515); // 519 = GL_ALWAYS, 515 = GL_LEQUAL
 
             matrices.push();
             matrices.translate(-camera.getX(), -camera.getY(), -camera.getZ());
@@ -139,10 +146,16 @@ public class RenderHelper {
             BufferRenderer.drawWithGlobalProgram(buffer.end());
 
             matrices.pop();
+            //RenderSystem.lineWidth(1f);
+            //RenderSystem.enableCull();
+            //RenderSystem.disableDepthTest();
+            //RenderSystem.depthFunc(GL11.GL_LEQUAL);
+
+            // Same for this one
             RenderSystem.lineWidth(1f);
             RenderSystem.enableCull();
             RenderSystem.disableDepthTest();
-            RenderSystem.depthFunc(GL11.GL_LEQUAL);
+            RenderSystem.depthFunc(515); // GL_LEQUAL
         }
     }
 
@@ -171,17 +184,24 @@ public class RenderHelper {
         Matrix4f positionMatrix = matrices.peek().getPositionMatrix();
         Matrix3f normalMatrix = matrices.peek().getNormalMatrix();
 
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+        //GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        //GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 
         RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
+        //RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        //RenderSystem.lineWidth(lineWidth);
+        //RenderSystem.enableBlend();
+        //RenderSystem.defaultBlendFunc();
+        //RenderSystem.disableCull();
+        //RenderSystem.enableDepthTest();
+        //RenderSystem.depthFunc(throughWalls ? GL11.GL_ALWAYS : GL11.GL_LEQUAL);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.lineWidth(lineWidth);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableCull();
         RenderSystem.enableDepthTest();
-        RenderSystem.depthFunc(throughWalls ? GL11.GL_ALWAYS : GL11.GL_LEQUAL);
+        RenderSystem.depthFunc(throughWalls ? 519 : 515); // 519 = GL_ALWAYS, 515 = GL_LEQUAL
 
         BufferBuilder buffer = tessellator.begin(DrawMode.LINE_STRIP, VertexFormats.LINES);
 
@@ -197,10 +217,13 @@ public class RenderHelper {
         BufferRenderer.drawWithGlobalProgram(buffer.end());
 
         matrices.pop();
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        //GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        //RenderSystem.lineWidth(1f);
+        //RenderSystem.enableCull();
+        //RenderSystem.depthFunc(GL11.GL_LEQUAL);
         RenderSystem.lineWidth(1f);
         RenderSystem.enableCull();
-        RenderSystem.depthFunc(GL11.GL_LEQUAL);
+        RenderSystem.depthFunc(515); // GL_LEQUAL
     }
 
     public static void renderLineFromCursor(WorldRenderContext context, Vec3d point, float[] colorComponents, float alpha, float lineWidth) {
@@ -213,18 +236,24 @@ public class RenderHelper {
         Tessellator tessellator = RenderSystem.renderThreadTesselator();
         Matrix4f positionMatrix = matrices.peek().getPositionMatrix();
 
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+        //GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        //GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 
         RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
+        //RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        //RenderSystem.lineWidth(lineWidth);
+        //RenderSystem.enableBlend();
+        //RenderSystem.defaultBlendFunc();
+        //RenderSystem.disableCull();
+        //RenderSystem.enableDepthTest();
+        //RenderSystem.depthFunc(GL11.GL_ALWAYS);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.lineWidth(lineWidth);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableCull();
         RenderSystem.enableDepthTest();
-        RenderSystem.depthFunc(GL11.GL_ALWAYS);
-
+        RenderSystem.depthFunc(519); // GL_ALWAYS
         Vec3d offset = Vec3d.fromPolar(context.camera().getPitch(), context.camera().getYaw());
         Vec3d cameraPoint = camera.add(offset);
 
@@ -245,10 +274,13 @@ public class RenderHelper {
         BufferRenderer.drawWithGlobalProgram(buffer.end());
 
         matrices.pop();
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        //GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        //RenderSystem.lineWidth(1f);
+        //RenderSystem.enableCull();
+        //RenderSystem.depthFunc(GL11.GL_LEQUAL);
         RenderSystem.lineWidth(1f);
         RenderSystem.enableCull();
-        RenderSystem.depthFunc(GL11.GL_LEQUAL);
+        RenderSystem.depthFunc(515); // GL_LEQUAL
     }
 
     public static void renderQuad(WorldRenderContext context, Vec3d[] points, float[] colorComponents, float alpha, boolean throughWalls) {
@@ -260,11 +292,16 @@ public class RenderHelper {
         Tessellator tessellator = RenderSystem.renderThreadTesselator();
 
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        //RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        //RenderSystem.enableBlend();
+        //RenderSystem.defaultBlendFunc();
+        //RenderSystem.disableCull();
+        //RenderSystem.depthFunc(throughWalls ? GL11.GL_ALWAYS : GL11.GL_LEQUAL);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableCull();
-        RenderSystem.depthFunc(throughWalls ? GL11.GL_ALWAYS : GL11.GL_LEQUAL);
+        RenderSystem.depthFunc(throughWalls ? 519 : 515); // 519 = GL_ALWAYS, 515 = GL_LEQUAL
 
         BufferBuilder buffer = tessellator.begin(DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         for (int i = 0; i < 4; i++) {
@@ -273,7 +310,8 @@ public class RenderHelper {
         BufferRenderer.drawWithGlobalProgram(buffer.end());
 
         RenderSystem.enableCull();
-        RenderSystem.depthFunc(GL11.GL_LEQUAL);
+        //RenderSystem.depthFunc(GL11.GL_LEQUAL);
+        RenderSystem.depthFunc(515);
     }
 
     public static void renderText(WorldRenderContext context, Text text, Vec3d pos, boolean throughWalls) {
@@ -310,12 +348,14 @@ public class RenderHelper {
 
         VertexConsumerProvider.Immediate consumers = VertexConsumerProvider.immediate(ALLOCATOR);
 
-        RenderSystem.depthFunc(throughWalls ? GL11.GL_ALWAYS : GL11.GL_LEQUAL);
+        //RenderSystem.depthFunc(throughWalls ? GL11.GL_ALWAYS : GL11.GL_LEQUAL);
+        RenderSystem.depthFunc(throughWalls ? 519 : 515); // 519 = GL_ALWAYS, 515 = GL_LEQUAL
 
         textRenderer.draw(text, xOffset, yOffset, 0xFFFFFFFF, false, positionMatrix, consumers, TextRenderer.TextLayerType.SEE_THROUGH, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE);
         consumers.draw();
 
-        RenderSystem.depthFunc(GL11.GL_LEQUAL);
+        //RenderSystem.depthFunc(GL11.GL_LEQUAL);
+        RenderSystem.depthFunc(515); // GL_LEQUAL
     }
 
     /**
