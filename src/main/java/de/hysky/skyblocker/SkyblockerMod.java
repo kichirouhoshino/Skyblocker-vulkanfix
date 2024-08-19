@@ -10,7 +10,6 @@ import de.hysky.skyblocker.debug.Debug;
 import de.hysky.skyblocker.skyblock.*;
 import de.hysky.skyblocker.skyblock.bazaar.BazaarHelper;
 import de.hysky.skyblocker.skyblock.calculators.CalculatorCommand;
-import de.hysky.skyblocker.skyblock.chat.ChatRuleAnnouncementScreen;
 import de.hysky.skyblocker.skyblock.chat.ChatRulesHandler;
 import de.hysky.skyblocker.skyblock.chat.SkyblockXpMessages;
 import de.hysky.skyblocker.skyblock.chocolatefactory.EggFinder;
@@ -58,6 +57,7 @@ import de.hysky.skyblocker.skyblock.waypoint.*;
 import de.hysky.skyblocker.utils.*;
 import de.hysky.skyblocker.utils.chat.ChatMessageListener;
 import de.hysky.skyblocker.utils.discord.DiscordRPCManager;
+import de.hysky.skyblocker.utils.mayor.MayorUtils;
 import de.hysky.skyblocker.utils.render.RenderHelper;
 import de.hysky.skyblocker.utils.render.culling.OcclusionCulling;
 import de.hysky.skyblocker.utils.container.ContainerSolverManager;
@@ -87,7 +87,6 @@ public class SkyblockerMod implements ClientModInitializer {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     public static final Gson GSON_COMPACT = new GsonBuilder().create();
     private static SkyblockerMod INSTANCE;
-    public final ContainerSolverManager containerSolverManager = new ContainerSolverManager();
     public final StatusBarTracker statusBarTracker = new StatusBarTracker();
 
     /**
@@ -117,6 +116,7 @@ public class SkyblockerMod implements ClientModInitializer {
         SkyblockerScreen.initClass();
         ProfileViewerScreen.initClass();
         Tips.init();
+        UpdateNotifications.init();
         NEURepoManager.init();
         //ImageRepoLoader.init();
         ItemRepository.init();
@@ -147,7 +147,6 @@ public class SkyblockerMod implements ClientModInitializer {
         ChatMessageListener.init();
         Shortcuts.init();
         ChatRulesHandler.init();
-        ChatRuleAnnouncementScreen.init();
         SkyblockXpMessages.init();
         CalculatorCommand.init();
         DiscordRPCManager.init();
@@ -202,7 +201,7 @@ public class SkyblockerMod implements ClientModInitializer {
         FancyStatusBars.init();
         SkyblockInventoryScreen.initEquipment();
         EventNotifications.init();
-        containerSolverManager.init();
+        ContainerSolverManager.init();
         statusBarTracker.init();
         BeaconHighlighter.init();
         WarpAutocomplete.init();
@@ -215,6 +214,7 @@ public class SkyblockerMod implements ClientModInitializer {
         SlotTextManager.init();
         BazaarHelper.init();
         MobGlow.init();
+        MayorUtils.init();
         SlayerEntitiesGlow.init();
 
         Scheduler.INSTANCE.scheduleCyclic(Utils::update, 20);
