@@ -85,16 +85,3 @@ jobs:
           body: ${{ steps.read_changelog.outputs.changelog }}
           token: ${{ secrets.GH_RELEASE }}
           files: build/libs/${{ steps.fname.outputs.result }}
-
-      - name: Publish using mod-publish-plugin
-        run: ./gradlew build publishMods
-        env:
-          CHANGELOG: ${{ steps.read_changelog.outputs.changelog_highlight }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
-
-      - name: Trigger Modpack
-        shell: bash
-        run: |
-          curl -X POST -H "Authorization:Bearer ${{secrets.MODPACK_TOKEN}}" -H "X-GitHub-Api-Version:2022-11-28" https://api.github.com/repos/SkyblockerMod/Skyblocker-modpack/actions/workflows/update.yml/dispatches --data '{"ref":"main"}'
